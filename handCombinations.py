@@ -45,6 +45,17 @@ def populateCatagory(cardMap, catagory, count):
     cardMap[catagory] = range(start, start + count)
     cardMap[SIZE] = start + count
 
+def populateDeck():
+    cardList = []
+    deckFile = open("decklist.txt")
+    for line in deckFile:
+        splitLine = line.rstrip().split(" ",1)
+        print(splitLine)
+        cardList += int(splitLine[0]) * [splitLine[1]]
+    deckFile.close()
+    print(len(cardList))
+    return cardList
+
 def populate():
     cardList = []
     cardList += 2 * [FOREST]
@@ -67,6 +78,7 @@ def populate():
     return cardList
 
 def makeHands(handSize):
+    #return combinations(populateDeck(),handSize)
     return combinations(populate(),handSize)
 
 def main():

@@ -1,20 +1,20 @@
 from itertools import combinations
 
 SIZE = "size"
-FOREST = "forest"
-MOUNTAIN = "mountain"
-CHANCELOR = "chancelor"
-SPIRIT_GUIDE = "spiritGuide"
-RITUAL = "ritual"
-WILD_CANTOR = "wildCantor"
+FOREST = "Forest"
+MOUNTAIN = "Mountain"
+CHANCELOR = "Chancellor of the Tangle"
+SIMIAN = "Simian Spirit Guide"
+RITUAL = "Ritual"
+CANTOR = "Wild Cantor"
 WIN_CONDITION = "winCondition"
 LAY_OF_THE_LAND = "layOfTheLand"
-RENEGADE_MAP = "renegadeMap"
-FAITHLESS_LOOTING = "faithlessLooting"
-MANAMORPHOSE = "manamorphose"
-WRAITH = "wraith"
-REFORGE = "reforge"
-PACT = "pact"
+RENEGADE_MAP = "Renegade Map"
+FAITHLESS_LOOTING = "Faithless Looting"
+MANAMORPHOSE = "Manamorphose"
+WRAITH = "Street Wraith"
+REFORGE = "Reforge the Soul"
+PACT = "Pact of Negation"
 SIDEBOARD = "sideboard"
 
 def contains(hand, *cards):
@@ -26,9 +26,9 @@ def contains(hand, *cards):
 def ifFirstTurnGreenMana(hand):
     if FOREST in hand or CHANCELOR in hand:
         return True
-    if WILD_CANTOR in hand and (MOUNTAIN in hand or SPIRIT_GUIDE in hand):
+    if CANTOR in hand and (MOUNTAIN in hand or SIMIAN in hand):
         return True
-    if contains(hand, MOUNTAIN, SPIRIT_GUIDE) >= 2 and MANAMORPHOSE in hand:
+    if contains(hand, MOUNTAIN, SIMIAN) >= 2 and MANAMORPHOSE in hand:
         return True
     return False
 
@@ -61,9 +61,9 @@ def populate():
     cardList += 2 * [FOREST]
     cardList += 2 * [MOUNTAIN]
     cardList += 4 * [CHANCELOR]
-    cardList += 4 * [SPIRIT_GUIDE]
+    cardList += 4 * [SIMIAN]
     cardList += 8 * [RITUAL]
-    cardList += 4 * [WILD_CANTOR]
+    cardList += 4 * [CANTOR]
     cardList += 8 * [WIN_CONDITION]
     cardList += 14 * [LAY_OF_THE_LAND]
     cardList += 4 * [RENEGADE_MAP]

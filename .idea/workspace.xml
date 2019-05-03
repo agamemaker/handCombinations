@@ -14,8 +14,8 @@
       <file leaf-file-name="handCombinations.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/handCombinations.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="680">
-              <caret line="81" column="4" lean-forward="false" selection-start-line="81" selection-start-column="4" selection-end-line="81" selection-end-column="4" />
+            <state relative-caret-position="204">
+              <caret line="12" column="34" lean-forward="false" selection-start-line="12" selection-start-column="34" selection-end-line="12" selection-end-column="34" />
               <folding />
             </state>
           </provider>
@@ -24,8 +24,8 @@
       <file leaf-file-name="decklist.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/decklist.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="12" lean-forward="false" selection-start-line="0" selection-start-column="12" selection-end-line="0" selection-end-column="12" />
+            <state relative-caret-position="306">
+              <caret line="18" column="13" lean-forward="true" selection-start-line="18" selection-start-column="2" selection-end-line="18" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -53,6 +53,8 @@
       <find>winCondition</find>
       <find>&quot;layOfTheLand&quot;</find>
       <find>&quot;renegadeMap&quot;</find>
+      <find>SPIRIT</find>
+      <find>SPIRIT_GUIDE</find>
     </findStrings>
     <replaceStrings>
       <replace>isIn</replace>
@@ -63,6 +65,7 @@
       <replace>WILD_CANTOR</replace>
       <replace>LAY_OF_THE_LAND</replace>
       <replace>RENEGADE_MAP</replace>
+      <replace>SIMIAN</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -76,7 +79,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-31" />
     <option name="y" value="-14" />
     <option name="width" value="1936" />
@@ -194,7 +197,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -253,16 +256,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/decklist.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="12" lean-forward="false" selection-start-line="0" selection-start-column="12" selection-end-line="0" selection-end-column="12" />
+        <state relative-caret-position="306">
+          <caret line="18" column="13" lean-forward="true" selection-start-line="18" selection-start-column="2" selection-end-line="18" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/handCombinations.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="680">
-          <caret line="81" column="4" lean-forward="false" selection-start-line="81" selection-start-column="4" selection-end-line="81" selection-end-column="4" />
+        <state relative-caret-position="204">
+          <caret line="12" column="34" lean-forward="false" selection-start-line="12" selection-start-column="34" selection-end-line="12" selection-end-column="34" />
           <folding />
         </state>
       </provider>

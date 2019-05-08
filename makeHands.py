@@ -1,7 +1,7 @@
 from itertools import combinations
 
 from constants import FOREST, MOUNTAIN, CHANCELOR, SIMIAN, RITUAL, CANTOR, WIN_CONDITION, LAY_OF_THE_LAND, RENEGADE_MAP, \
-    FAITHLESS_LOOTING, MANAMORPHOSE, WRAITH, REFORGE, PACT, SIDEBOARD
+    LOOTING, MANAMORPHOSE, WRAITH, REFORGE, PACT, SIDEBOARD
 
 
 def populateDeck():
@@ -27,14 +27,13 @@ def populate():
     cardList += 8 * [WIN_CONDITION]
     cardList += 14 * [LAY_OF_THE_LAND]
     cardList += 4 * [RENEGADE_MAP]
-    cardList += 4 * [FAITHLESS_LOOTING]
+    cardList += 4 * [LOOTING]
     cardList += 0 * [MANAMORPHOSE]
     cardList += 0 * [WRAITH]
     cardList += 2 * [REFORGE]
     cardList += 4 * [PACT]
     cardList += 0 * [SIDEBOARD]
     print(len(cardList))
-    #print(cardList)
     return cardList
 
 

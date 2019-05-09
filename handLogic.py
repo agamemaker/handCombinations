@@ -3,19 +3,6 @@ import time
 from constants import FOREST, MOUNTAIN, CHANCELOR, SIMIAN, CANTOR, WIN_CONDITION, LAY_OF_THE_LAND, RENEGADE_MAP, \
     LOOTING, MANAMORPHOSE
 
-class Hand:
-    def __init__(self, cards):
-        self.cards = cards
-
-    def recursivecontains(self, cards):
-        total = int(0)
-        if isinstance(cards, list):
-            for card in cards:
-                total += recursivecontains(self.cards, card)
-        else:
-            total += self.cards.count(cards)
-        return total
-
 def contains(hand, *cards):
     total = int(0)
     for card in cards:
@@ -57,21 +44,6 @@ def recursiveIn(hand, cards):
             return True
     return False
 
-def ifplayable(hand):
-    return ifFirstTurnForest(hand) and (WIN_CONDITION in hand or LOOTING in hand) and contains(hand, FOREST, MOUNTAIN, LAY_OF_THE_LAND, RENEGADE_MAP) >= 2
-
-#testing
-def timeTestIterative(hand):
-    return contains(hand, FOREST, MOUNTAIN, LAY_OF_THE_LAND, RENEGADE_MAP)
-
-def timeTestIterativeBoolean(hand):
-    return iterativeIn(hand, [FOREST, MOUNTAIN, LAY_OF_THE_LAND, RENEGADE_MAP])
-
-def timeTestRecursive(hand):
-    return recursivecontains(hand, [FOREST, MOUNTAIN, LAY_OF_THE_LAND, RENEGADE_MAP])
-
-def timeTestRecursiveBoolean(hand):
-    return recursiveIn(hand, [FOREST, MOUNTAIN, LAY_OF_THE_LAND, RENEGADE_MAP])
 
 def ifFirstTurnGreenMana(hand):
     if FOREST in hand or CHANCELOR in hand:
@@ -89,3 +61,35 @@ def ifFirstTurnForest(hand):
     if MOUNTAIN in hand and RENEGADE_MAP in hand:
         return True
     return False
+
+def ifplayable(hand):
+    return ifFirstTurnForest(hand) and (WIN_CONDITION in hand or LOOTING in hand) and contains(hand, FOREST, MOUNTAIN, LAY_OF_THE_LAND, RENEGADE_MAP) >= 2
+
+#testing
+def straightCount(hand):
+    return stackTestCount(hand)
+
+
+def stackTestCount(hand):
+    return hand.count(FOREST) + hand.count(MOUNTAIN) + hand.count(LAY_OF_THE_LAND) + hand.count(RENEGADE_MAP)
+
+
+def straightBoolean(hand):
+    return stackTestBool(hand)
+
+
+def stackTestBool(hand):
+    return FOREST in hand or MOUNTAIN in hand or LAY_OF_THE_LAND in hand or RENEGADE_MAP in hand
+
+
+def timeTestIterative(hand):
+    return contains(hand, FOREST, MOUNTAIN, LAY_OF_THE_LAND, RENEGADE_MAP)
+
+def timeTestIterativeBoolean(hand):
+    return iterativeIn(hand, [FOREST, MOUNTAIN, LAY_OF_THE_LAND, RENEGADE_MAP])
+
+def timeTestRecursive(hand):
+    return recursivecontains(hand, [FOREST, MOUNTAIN, LAY_OF_THE_LAND, RENEGADE_MAP])
+
+def timeTestRecursiveBoolean(hand):
+    return recursiveIn(hand, [FOREST, MOUNTAIN, LAY_OF_THE_LAND, RENEGADE_MAP])

@@ -3,7 +3,7 @@ import time
 from constants import FOREST, MOUNTAIN, CHANCELOR, SIMIAN, CANTOR, WIN_CONDITION, LAY_OF_THE_LAND, RENEGADE_MAP, \
     LOOTING, MANAMORPHOSE
 
-def contains(hand, *cards):
+def containsFlexible(hand, *cards):
     total = int(0)
     for card in cards:
         if isinstance(card, list):
@@ -13,7 +13,13 @@ def contains(hand, *cards):
             total += hand.count(card)
     return total
 
-def iterativeIn(hand, *cards):
+def contains(hand, *cards):
+    total = int(0)
+    for card in cards:
+        total += hand.count(card)
+    return total
+
+def iterativeInFlexible(hand, *cards):
     for card in cards:
         if isinstance(card, list):
             for induvidual in card:
@@ -22,6 +28,13 @@ def iterativeIn(hand, *cards):
         else:
             if card in hand:
                 return True
+    return False
+
+def iterativeIn(hand, *cards):
+    total = int(0)
+    for card in cards:
+        if card in hand:
+            return True
     return False
 
 def recursivecontains(hand, cards):

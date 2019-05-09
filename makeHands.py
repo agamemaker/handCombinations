@@ -9,7 +9,7 @@ def populateDeck():
     deckFile = open("decklist.txt")
     for line in deckFile:
         splitLine = line.rstrip().split(" ",1)
-        print(splitLine)
+        #print(splitLine)
         cardList += int(splitLine[0]) * [splitLine[1]]
     deckFile.close()
     print(len(cardList))
@@ -38,5 +38,5 @@ def populate():
 
 
 def makeHands(handSize):
-    #return combinations(populateDeck(),handSize)
-    return combinations(populate(),handSize)
+    return combinations(populateDeck(),handSize)
+    #return combinations(populate(),handSize)

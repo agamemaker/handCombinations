@@ -1,7 +1,29 @@
 import time
 
 from constants import FOREST, MOUNTAIN, CHANCELOR, SIMIAN, CANTOR, WIN_CONDITION, LAY_OF_THE_LAND, RENEGADE_MAP, \
-    LOOTING, MANAMORPHOSE
+    LOOTING, MANAMORPHOSE, ATTUNE, CARAVAN, OPEN, TRAVERSE, BELCHER, RECROSS
+
+
+def ifplayable(hand):
+    return ifFirstTurnGreenMana(hand) and hasWinConditionOrDrawEngine(hand) and containsTwoPotentialLands(hand)
+
+def ifFirstTurnGreenMana(hand):
+    if FOREST in hand or CHANCELOR in hand:
+        return True
+    if CANTOR in hand and (MOUNTAIN in hand or SIMIAN in hand):
+        return True
+    if MOUNTAIN in hand and RENEGADE_MAP in hand:
+        return True
+    if MANAMORPHOSE in hand and (hand.count(MOUNTAIN) + hand.count(SIMIAN)) >= 2 :
+        return True
+    return False
+
+def hasWinConditionOrDrawEngine(hand):
+    return WIN_CONDITION in hand or BELCHER in hand or RECROSS in hand or LOOTING in hand
+
+def containsTwoPotentialLands(hand):
+    return (hand.count(FOREST) + hand.count(MOUNTAIN) + hand.count(LAY_OF_THE_LAND)  + hand.count(ATTUNE)  + \
+            hand.count(CARAVAN)  + hand.count(OPEN) + hand.count(TRAVERSE) + hand.count(RENEGADE_MAP)) >= 2
 
 def containsFlexible(hand, *cards):
     total = int(0)
@@ -57,26 +79,6 @@ def recursiveIn(hand, cards):
             return True
     return False
 
-
-def ifFirstTurnGreenMana(hand):
-    if FOREST in hand or CHANCELOR in hand:
-        return True
-    if CANTOR in hand and (MOUNTAIN in hand or SIMIAN in hand):
-        return True
-    if contains(hand, MOUNTAIN, SIMIAN) >= 2 and MANAMORPHOSE in hand:
-        return True
-    return False
-
-
-def ifFirstTurnForest(hand):
-    if ifFirstTurnGreenMana(hand) and (FOREST in hand or LAY_OF_THE_LAND):
-        return True
-    if MOUNTAIN in hand and RENEGADE_MAP in hand:
-        return True
-    return False
-
-def ifplayable(hand):
-    return ifFirstTurnForest(hand) and (WIN_CONDITION in hand or LOOTING in hand) and contains(hand, FOREST, MOUNTAIN, LAY_OF_THE_LAND, RENEGADE_MAP) >= 2
 
 #testing
 def straightCount(hand):

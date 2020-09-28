@@ -1,16 +1,15 @@
 FOREST = "Forest"
 MOUNTAIN = "Mountain"
+SWAMP = "Swamp"
 CHANCELOR = "Chancellor of the Tangle"
 SIMIAN = "Simian Spirit Guide"
 CANTOR = "Wild Cantor"
-RENEGADE_MAP = "Renegade Map"
-LOOTING = "Faithless Looting"
+MAP = "Renegade Map"
 MANAMORPHOSE = "Manamorphose"
 WRAITH = "Street Wraith"
 REFORGE = "Reforge the Soul"
 PACT = "Pact of Negation"
 SIDEBOARD = "sideboard"
-WIN_CONDITION = "winCondition"
 BELCHER = "Goblin Charbelcher"
 RECROSS = "Recross the Paths"
 LAY_OF_THE_LAND = "layOfTheLand"
@@ -21,3 +20,34 @@ TRAVERSE = "Traverse the Ulvenwald"
 RITUAL = "Ritual"
 DESPERATE = "Desperate Ritual"
 PYRETIC = "Pyretic Ritual"
+SPY = "Balustrade Spy"
+UNDERCITY = "Undercity Informer"
+PENTAD = "Pentad Prism"
+TALISMAN = "Talisman of Resilience"
+SPHERE = "Sphere of the Suns"
+POWDER = "Serum Powder"
+BALA = "Bala Ged Recovery"
+VALAKUT = "Valakut Awakening"
+FEAT = "Irencrag Feat"
+ORACLE =  "Thassa's Oracle"
+JOURNEY = "Memory's Journey"
+UNEARTH = "Unearth"
+TIMBER = "Turntimber Symbiosis"
+SHATTER = "Shatterskull Smashing"
+AGADEEM = "Agadeem's Awakening"
+EMERIA = "Emeria's Call"
+SEAGATE = "Sea Gate Restoration"
+PELAKKA = "Pelakka Predation"
+TANGLED = "Tangled Florahedron"
+MAULING = "Hagra Mauling"
+
+
+########################################
+
+FINISHER =[BELCHER, RECROSS, UNDERCITY, SPY]
+LOTL =[TRAVERSE, MAP, CARAVAN, ATTUNE, OPEN, LAY_OF_THE_LAND]
+LAND = [FOREST, MOUNTAIN, SWAMP]
+ACCELERANT = [SIMIAN, DESPERATE, PYRETIC, PENTAD, TALISMAN, CANTOR]
+CANTRIP =[MANAMORPHOSE, WRAITH]
+COMBO = []
+DISRUPTION  = [PACT]

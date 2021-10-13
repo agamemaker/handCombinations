@@ -3,9 +3,16 @@ import random
 from itertools import combinations
 from math import floor
 
-from constants import SWAMP, FOREST, MOUNTAIN, EMERIA, PELAKKA, TALISMAN, SHATTER, SPHERE, SEAGATE, TANGLED, MAULING
-from handLogic import isPowderable, isPlayableAtSize, scoreHand, isTunrThreeSVOAS
-from makeHands import makeHands, populateDeck
+from constants import SWAMP, FOREST, MOUNTAIN, SHATTER, MAULING, \
+    DOMINANCE, STRIKE, SONG, SEAGATE, SPIKE, FEAT, VALAKUT
+from handLogic.belcherHL import isTurnTwoMoon, isTurnThree
+from handLogic.handLogic import isPowderable, isPlayableAtSize, scoreHand, isTurnThreeSalvage, isTurnOneSalvage
+from makeHands import makeHands, populateDeck, populateDecklist
+
+verbose = True
+sampleSize = 10000
+fullCombination = False
+csvoutput = True
 
 def combinationBaseHands(file):
     totalCount = 0
@@ -20,6 +27,21 @@ def combinationBaseHands(file):
         successArray[index] += 1
     for i in successArray:
         print(i/totalCount)
+
+def combinationBaseHandsSpy(file):
+    totalCount = 0
+    success = 0
+
+    hands = makeHands(7, file)
+    for hand in hands:
+        totalCount += 1
+        if totalCount%10000000 == 0:
+            print(totalCount)
+        if isTurnOneSalvage(hand):
+            success += 1
+    print(success)
+    print(totalCount)
+    print(success/totalCount)
 
 def sampleBasedHands(decklist):
     sampleSize = 1000000
@@ -68,7 +90,7 @@ def sampleBasedScores(decklist):
         print(i/sampleSize)
 
 def newsampleBasedHands(decklist, test):
-    sampleSize = 10000
+    sampleSize = 1000000
     deck = populateDeck(decklist)
     handPercentages = newsampleHands(deck, sampleSize, test)
     print(handPercentages)
@@ -78,7 +100,7 @@ def newsampleHands(deck, sampleSize, test):
     random.seed(0)
 
     for i in range(sampleSize):
-        handSize = newfindKeepableHand(deck, test)
+        handSize = newfindKeepableHand(deck, test, random)
         handSizes[handSize] += 1
 
     handPercentages = []
@@ -88,43 +110,46 @@ def newsampleHands(deck, sampleSize, test):
 
 
 
-def newfindKeepableHand(deck, test):
+def newfindKeepableHand(deck, test, random):
     handSize = 7
     while handSize > 0:
         baseHand = random.sample(deck, 7)
         possibleHands = combinations(baseHand, handSize)
         for hand in possibleHands:
+            hands = []
             if test(hand):
-                with open('turn3.csv', mode='a') as turn3win:
-                    winWriter = csv.writer(turn3win)
-                    winWriter.writerow([handSize]+baseHand)
+                hands += [hand]
+            if hands:
                 return handSize
-        with open('turn3no.csv', mode='a') as turn3no:
-            noWriter = csv.writer(turn3no)
-            noWriter.writerow([handSize] + baseHand)
         handSize -= 1
     return 0
 
 def tuning(decklist, test, tuneAbleCards):
-    sampleSize = 10000
     deck = populateDeck(decklist)
-    oldBestRate = 1
+    oldBestRate = newsampleHands(deck, sampleSize, test)[0]
     while(True):
         failrates = []
         for cardIn in tuneAbleCards:
             for cardOut in tuneAbleCards:
-                if cardIn == cardOut or deck.count(cardIn) >= 4 or deck.count(cardOut) <= 0:
+                match = cardIn == cardOut
+                tooMany = deck.count(cardIn) >= 4
+                tooFew = deck.count(cardOut) <= 0
+                if match or tooMany or tooFew:
                     failrates += [1]
                 else:
-                    print(cardIn + " " + cardOut)
                     testDeck = deck[:]
                     testDeck.append(cardIn)
                     testDeck.remove(cardOut)
                     testDeck.sort()
-                    #print(testDeck)
                     handPercentages = newsampleHands(testDeck, sampleSize, test)
                     failrates += [handPercentages[0]]
-        print(failrates)
+                    if verbose:
+                        #print(cardIn + " for " + cardOut)
+                        print("+" + cardIn + " -" + cardOut)
+                        print(handPercentages)
+
+        if verbose:
+            print(failrates)
         bestRate = min(failrates)
         if bestRate >= oldBestRate:
             break
@@ -132,21 +157,54 @@ def tuning(decklist, test, tuneAbleCards):
             oldBestRate = bestRate
             bestIndex = failrates.index(bestRate)
             across = len(tuneAbleCards)
-            print(bestIndex)
             cardIn = tuneAbleCards[floor(bestIndex/across)]
             cardOut = tuneAbleCards[bestIndex%across]
             print("+" + cardIn + " -" + cardOut)
             deck.append(cardIn)
             deck.remove(cardOut)
             deck.sort()
-        #print(deck)
-    for card in deck:
-        print(card)
+    fileSplit = decklist.split(".",1)
+    writeFilename = fileSplit[0] + "_tuned." + fileSplit[1]
+    populateDecklist(deck, writeFilename)
+    if verbose:
+        for card in deck:
+            print(card)
+
+def noMullTest(decklist, test):
+    deck = populateDeck(decklist)
+    totalCount = 0
+    success = 0
+    testPass = False
+    #hands
+    hands =[]
+    if fullCombination:
+        hands = makeHands(7, decklist)
+    else:
+        random.seed(0)
+        for i in range(sampleSize):
+            hands += [random.sample(deck, 7)]
+
+    #testing
+    with open('turn3.csv', mode='w') as csvFile:
+        writer = csv.writer(csvFile)
+        for hand in hands:
+            totalCount += 1
+            testPass = test(hand)
+            if totalCount % 10000000 == 0 and verbose:
+                print(totalCount)
+            if testPass:
+                success += 1
+            if csvoutput:
+                writer.writerow([testPass]+hand)
+
+    print(success)
+    print(totalCount)
+    print(success / totalCount)
 
 
 if __name__ == "__main__":
-    #combinationBaseHands("decklists/mike.txt")
-    #sampleBasedScores("decklists/GB_decklist.txt")
-    #sampleBasedHands("decklists/GB_decklist.txt")
-    newsampleBasedHands("decklists/sundering_dredge.txt", isTunrThreeSVOAS)
-    #tuning("decklists/sundering_dredge.txt", isTunrThreeSVOAS, [SHATTER, PELAKKA, SPHERE, EMERIA, SEAGATE, MAULING, TANGLED, TALISMAN])
+    #tuning("decklists/salvage_spy.txt", isTurnThreeSalvage, [SHATTER, MAULING, DOMINANCE])
+    tuning("decklists/belcher.txt", isTurnThree, [STRIKE, VALAKUT, SEAGATE, FEAT])
+    #noMullTest("decklists/belcher.txt", isTurnThree)
+    noMullTest("decklists/tuned.txt", isTurnThree)
+    #noMullTest("decklists/salvage_spy.txt", isTurnThreeSalvage)

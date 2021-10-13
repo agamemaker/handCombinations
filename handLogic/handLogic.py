@@ -4,7 +4,7 @@ from itertools import combinations
 from constants import FOREST, MOUNTAIN, CHANCELOR, SIMIAN, CANTOR, LAY_OF_THE_LAND, MAP, \
     MANAMORPHOSE, ATTUNE, CARAVAN, OPEN, TRAVERSE, BELCHER, RECROSS, SWAMP, SPY, UNDERCITY, PENTAD, \
     TALISMAN, PYRETIC, DESPERATE, TIMBER, POWDER, ORACLE, JOURNEY, REFORGE, UNEARTH, BALA, VALAKUT, FEAT, AGADEEM, \
-    PELAKKA, EMERIA, SEAGATE, SHATTER, SPHERE, MAULING, TANGLED
+    PELAKKA, EMERIA, SEAGATE, SHATTER, SPHERE, MAULING, TANGLE, DOMINANCE, INTERACTION
 
 
 def isplayable(hand):
@@ -162,33 +162,43 @@ def scoreHand(hand):
         index += 8
     return index
 
-def isTunrThreeSVOAS(hand):
-    index = 0
-
+def isTurnThreeSalvage(hand):
     if len(hand) < 4:
         return False
 
     #contains black mana
-    if AGADEEM in hand or PELAKKA in hand or MAULING in hand or TALISMAN in hand or PENTAD in hand or SPHERE in hand:
-        index += 1
+    if not(AGADEEM in hand or PELAKKA in hand or MAULING in hand or TALISMAN in hand or PENTAD in hand or SPHERE in hand or DOMINANCE in hand):
+        return False
 
     #contains finisher
-    if SPY in hand or UNDERCITY in hand:
-        index += 2
-
-    if hasFourManaTurnThree(hand):
-        index += 4
-
-    if index == 7:
-        return True
-    else:
+    if not(SPY in hand or UNDERCITY in hand or BELCHER in hand):
         return False
+
+    if not hasFourManaTurnThree(hand):
+        return False
+
+    return True
+
+def isTurnThreeAndInteraction(hand):
+    if not isTurnThreeSalvage(hand):
+        return False
+
+    if not handContains(hand, INTERACTION):
+        return False
+
+    return True
+
+def handContains(hand, containsL):
+    for card in containsL:
+        if card in hand:
+            return True
+    return False
 
 
 def hasFourManaTurnThree(hand):
     untapLands = hand.count(EMERIA) + hand.count(SEAGATE) + hand.count(AGADEEM) + hand.count(SHATTER) + hand.count(
         TIMBER)
-    tappedLands = hand.count(PELAKKA) + hand.count(TANGLED) + hand.count(MAULING)
+    tappedLands = hand.count(PELAKKA) + hand.count(TANGLE) + hand.count(MAULING)
     neededTapped = min(max(3 - untapLands, 0), tappedLands)
     totalLands = min(untapLands + tappedLands, 3)
     manaFromLands = 0
@@ -199,9 +209,9 @@ def hasFourManaTurnThree(hand):
     # contains accelerant and proper lands
     if PENTAD in hand and totalMana >= 4 and baseColors(hand) >= 2:
         return True
-    if (TALISMAN in hand or SPHERE in hand) and totalLands >= 3 and untapLands >= 2:
+    if (TALISMAN in hand or SPHERE in hand or DOMINANCE in hand) and totalLands >= 3 and untapLands >= 2:
         return True
-    if (TALISMAN in hand or SPHERE in hand) and totalLands >= 2 and untapLands >= 1 and SIMIAN in hand:
+    if (TALISMAN in hand or SPHERE in hand or DOMINANCE in hand) and totalLands >= 2 and untapLands >= 1 and SIMIAN in hand:
         return True
     if totalLands + hand.count(SIMIAN) >= 4 and untapLands >= 1:
         return True
@@ -218,6 +228,18 @@ def baseColors(hand):
         colors += 1
     if SHATTER in hand or SIMIAN in hand:
         colors += 1
-    if TIMBER in hand or TANGLED in hand:
+    if TIMBER in hand or TANGLE in hand:
         colors += 1
     return colors
+
+def isTurnOneSalvage(hand):
+    if hand.count(SIMIAN) >= 3 and (SPY in hand or UNDERCITY in hand):
+        if AGADEEM in hand:
+            return True
+        elif PENTAD in hand and (EMERIA in hand or SEAGATE in hand or TIMBER in hand):
+            return True
+
+    if hand.count(SIMIAN) >= 4 and TALISMAN in hand and (SPY in hand or UNDERCITY in hand):
+        if EMERIA in hand or SEAGATE in hand or AGADEEM in hand or SHATTER in hand or TIMBER in hand:
+            return True
+    return False
